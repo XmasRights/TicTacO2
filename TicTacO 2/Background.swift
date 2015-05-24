@@ -40,10 +40,11 @@ class Background: UIView
     override func drawRect(rect: CGRect)
     {
         let context = UIGraphicsGetCurrentContext()
+        let (xMin, xMax, yMin, yMax) = range(rect)
         
-        for y in 0...Int(self.squaresDown-1)
+        for y in yMin..<yMax
         {
-            for x in 0...Int(self.squaresAcross-1)
+            for x in xMin..<xMax
             {
                 let index = derivedIndex(x, y: y)
                 let rect  = CGRectMake(CGFloat(x) * squareSize, CGFloat(y) * squareSize, squareSize, squareSize)
@@ -69,5 +70,16 @@ class Background: UIView
     func derivedIndex(x: Int, y: Int) -> Int
     {
         return Int(squaresAcross) * y + x
+    }
+    
+    func range(rect: CGRect) -> (xMin: Int, xMax: Int, yMin: Int, yMax: Int)
+    {
+        let xMin = Int(floor(rect.origin.x / squareSize))
+        let yMin = Int(floor(rect.origin.y / squareSize))
+        
+        let xMax = Int(ceil(rect.origin.x + rect.size.width)  / squareSize)
+        let yMax = Int(ceil(rect.origin.y + rect.size.height) / squareSize) + 1
+        
+        return (xMin, xMax, yMin, yMax)
     }
 }
