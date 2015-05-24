@@ -17,6 +17,10 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="1of-pQ-X0X" customClass="Background" customModule="TicTacO_2" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="sS9-xX-zQc" customClass="Scoreboard" customModule="TicTacO_2" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="20" width="600" height="70"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -28,8 +32,12 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="sS9-xX-zQc" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" constant="-16" id="0SQ-xT-0Dd"/>
+                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="1of-pQ-X0X" secondAttribute="bottom" id="5jP-p6-V8c"/>
                             <constraint firstAttribute="trailingMargin" secondItem="sS9-xX-zQc" secondAttribute="trailing" constant="-16" id="Huk-my-XmK"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="1of-pQ-X0X" secondAttribute="trailing" constant="-16" id="XDj-vO-7Jb"/>
+                            <constraint firstItem="1of-pQ-X0X" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" constant="-16" id="gOO-RS-4wR"/>
                             <constraint firstItem="sS9-xX-zQc" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" id="nbm-Cz-q0O"/>
+                            <constraint firstItem="1of-pQ-X0X" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="topMargin" id="voz-xR-dy4"/>
                         </constraints>
                     </view>
                 </viewController>
