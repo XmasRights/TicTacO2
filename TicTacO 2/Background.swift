@@ -10,31 +10,57 @@ import UIKit
 
 class Background: UIView
 {
+    
+    // =============================================================
+    // MARK: Public Variables
+    // =============================================================
+
+    var hue: CGFloat
+    {
+        didSet
+        {
+            randomiseSaturation()
+            setNeedsDisplay()
+        }
+    }
+    
+    
+    // =============================================================
+    // MARK: Private Variables
+    // =============================================================
+    
+    private var bri = [CGFloat] ()
     private var squaresAcross: CGFloat = 10
-    private var squaresDown: CGFloat {
+    private var squaresDown: CGFloat
+    {
         return ceil(self.bounds.height / squareSize)
     }
     
-    private var numberOfSquares: CGFloat {
+    private var numberOfSquares: CGFloat
+    {
         return squaresDown * squaresAcross
     }
     
-    private var squareSize: CGFloat {
+    private var squareSize: CGFloat
+    {
         return self.bounds.width / squaresAcross
-
     }
     
-    private var hue: CGFloat = 1.0
-    private var bri = [CGFloat] ()
+    
+    // =============================================================
+    // MARK: Class Methods
+    // =============================================================
     
     required init(coder aDecoder: NSCoder)
     {
+        hue = 0.5
         super.init(coder: aDecoder)
     }
     
     override func layoutSubviews()
     {
         randomiseSaturation()
+        setNeedsDisplay()
     }
     
     override func drawRect(rect: CGRect)
@@ -56,7 +82,7 @@ class Background: UIView
         }
     }
     
-    func randomiseSaturation()
+    private func randomiseSaturation()
     {
         self.bri.removeAll(keepCapacity: false)
         
@@ -67,12 +93,17 @@ class Background: UIView
         }
     }
     
-    func derivedIndex(x: Int, y: Int) -> Int
+    
+    // =============================================================
+    // MARK: Class Helpers
+    // =============================================================
+    
+    private func derivedIndex(x: Int, y: Int) -> Int
     {
         return Int(squaresAcross) * y + x
     }
     
-    func range(rect: CGRect) -> (xMin: Int, xMax: Int, yMin: Int, yMax: Int)
+    private func range(rect: CGRect) -> (xMin: Int, xMax: Int, yMin: Int, yMax: Int)
     {
         let xMin = Int(floor(rect.origin.x / squareSize))
         let yMin = Int(floor(rect.origin.y / squareSize))
