@@ -8,7 +8,56 @@
 
 import Foundation
 
-enum GameMode
+struct GameModel
 {
-    case SinglePlayer, MultiPlayer, NetworkPlay
+    // =============================================================
+    // MARK: Enums
+    // =============================================================
+    
+    enum Turn
+    {
+        case X, O
+    }
+    
+    enum GameType
+    {
+        case SinglePlayer, MultiPlayer, NetworkPlay
+    }
+    
+    
+    // =============================================================
+    // MARK: Variables
+    // =============================================================
+    
+            var currentTurn = Turn.X
+    private var initialTurn = Turn.X
+            var gameType    = GameType.SinglePlayer
+    
+    
+    // =============================================================
+    // MARK: Public Methods
+    // =============================================================
+    mutating func reset()
+    {
+        swapInitialTurnForNewGame()
+    }
+    
+    
+    // =============================================================
+    // MARK: Private Methods
+    // =============================================================
+    
+    mutating func swapInitialTurnForNewGame()
+    {
+        if initialTurn == Turn.X
+        {
+            initialTurn = Turn.O
+        }
+        else
+        {
+            initialTurn = Turn.X
+        }
+        currentTurn = initialTurn
+    }
+    
 }
