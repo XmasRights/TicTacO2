@@ -24,6 +24,10 @@ struct GameModel
         case SinglePlayer, MultiPlayer, NetworkPlay
     }
     
+    enum BoardEntry
+    {
+        case X, O, Empty
+    }
     
     // =============================================================
     // MARK: Variables
@@ -32,6 +36,8 @@ struct GameModel
             var currentTurn = Turn.X
     private var initialTurn = Turn.X
             var gameType    = GameType.SinglePlayer
+            var board       = [BoardEntry](count: 9, repeatedValue: BoardEntry.Empty)
+            let boardSize   = 3
     
     
     // =============================================================
@@ -40,6 +46,7 @@ struct GameModel
     mutating func reset()
     {
         swapInitialTurnForNewGame()
+        resetBoard()
     }
     
     
@@ -58,6 +65,12 @@ struct GameModel
             initialTurn = Turn.X
         }
         currentTurn = initialTurn
+    }
+    
+    mutating func resetBoard()
+    {
+        board.removeAll(keepCapacity: false)
+        board = [BoardEntry](count: 9, repeatedValue: BoardEntry.Empty)
     }
     
 }
