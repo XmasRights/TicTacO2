@@ -10,14 +10,39 @@ import UIKit
 
 class Tile: UIView
 {
-            var identifier  = 0
-    private var touching    = false
+    // =============================================================
+    // MARK: Public Properties
+    // =============================================================
+    
+    enum TileState
     {
-        didSet
+        case Normal, X, O, DownX, DownO, Down
+    }
+    
+    var identifier  = 0
+    var state       = TileState.Normal
+    {
+        willSet
         {
             setNeedsDisplay()
         }
     }
+    
+    var occupied: Bool
+    {
+        switch self.state
+        {
+        case .X, .O:
+            return true
+        
+        default:
+            return false
+        }
+    }
+    
+    // =============================================================
+    // MARK: UIView Overrides
+    // =============================================================
     
     required init(coder aDecoder: NSCoder)
     {
@@ -33,32 +58,71 @@ class Tile: UIView
     
     override func drawRect(rect: CGRect)
     {
-        var fillRect = rect;
-        var colour   = UIColor.whiteColor()
-
-        if touching
-        {
-            fillRect.inset(dx: 10, dy: 10)
-            colour = UIColor(red: 1.0, green: 1.0, blue: 1.0, alpha: 0.7)
-        }
+        var context = UIGraphicsGetCurrentContext();
         
-        var context = UIGraphicsGetCurrentContext()
-        CGContextSetFillColorWithColor(context, colour.CGColor)
-        CGContextFillRect(context, fillRect)
+        drawBackground (context, rect: rect)
+        drawTileIcon   (context, rect: rect)
+        applyTileTransform ()
     }
     
-    override func touchesBegan(touches: Set<NSObject>, withEvent event: UIEvent)
+    // =============================================================
+    // MARK: Private Draw Methods
+    // =============================================================
+    
+    private func drawBackground(context: CGContextRef, rect: CGRect)
     {
-        touching = true
+        CGContextSetRGBFillColor(context, 1.0, 1.0, 1.0, 1.0)
+        CGContextFillRect(context, rect)
     }
     
-    override func touchesEnded(touches: Set<NSObject>, withEvent event: UIEvent)
+    private func drawTileIcon(context: CGContextRef, rect: CGRect)
     {
-        touching = false
+        switch (self.state)
+        {
+        case .X, .DownX:
+            drawX(inRect: rect, context: context, colour: UIColor.blackColor())
+            
+        case .O, .DownO:
+            drawO(intRect: rect, context: context, colour: UIColor.blackColor())
+            
+        case .Normal, .Down:
+            break
+        }
     }
     
-    override func touchesCancelled(touches: Set<NSObject>!, withEvent event: UIEvent!)
+    private func applyTileTransform()
     {
-        touching = false
+        switch (self.state)
+        {
+        case .Down, .DownO, .DownX:
+            self.transform = CGAffineTransformMakeScale(0.8, 0.8)
+            self.alpha     = 0.8
+            
+        default:
+            self.transform = CGAffineTransformIdentity
+            self.alpha     = 1.0
+        }
+    }
+    
+    private func drawX (inRect rect: CGRect, context: CGContextRef, colour: UIColor)
+    {
+        let TopLeft     = CGPointMake (rect.origin.x                  , rect.origin.y                   )
+        let TopRight    = CGPointMake (rect.origin.x + rect.size.width, rect.origin.y                   )
+        let BottomLeft  = CGPointMake (rect.origin.x                  , rect.origin.y + rect.size.height)
+        let BottomRight = CGPointMake (rect.origin.x + rect.size.width, rect.origin.y + rect.size.height)
+        
+        CGContextSetFillColorWithColor (context, colour.CGColor)
+        
+        CGContextMoveToPoint    (context, TopLeft.x,     TopLeft.y    )
+        CGContextAddLineToPoint (context, BottomRight.x, BottomRight.y)
+        CGContextMoveToPoint    (context, TopRight.x,    TopRight.y   )
+        CGContextAddLineToPoint (context, BottomLeft.x,  BottomLeft.y )
+        
+        CGContextStrokePath (context)
+    }
+    
+    private func drawO (intRect rect: CGRect, context: CGContextRef, colour: UIColor)
+    {
+        // TODO
     }
 }
