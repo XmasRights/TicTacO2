@@ -8,6 +8,13 @@
 
 import UIKit
 
+enum Location: Int
+{
+    case TopLeft = 0
+    case TopCentre, TopRight, MiddleLeft, MiddleCentre, MiddleRight, BottomLeft, BottomCentre, BottomRight
+}
+
+
 extension UIView
 {
     func addSubviewWithFullFrame(subview: UIView)

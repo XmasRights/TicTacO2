@@ -8,69 +8,203 @@
 
 import Foundation
 
-struct GameModel
+func == (lhs: GameLogic.State, rhs: GameLogic.State) -> Bool
+{
+    switch (lhs, rhs)
+    {
+    case (.Start,               .Start):                return true
+    case (.AwaitingUserInput,   .AwaitingUserInput):    return true
+    case (.AIMove,              .AIMove):               return true
+    case (.ApplyRotation,       .ApplyRotation):        return true
+    case (.CheckForWin,         .CheckForWin):          return true
+    case (.GameOver(let a),     .GameOver(let b)):      return (a == b)
+    case (.NextTurn,            .NextTurn):             return true
+        
+    default: return false
+    }
+}
+
+
+class GameLogic
 {
     // =============================================================
     // MARK: Enums
     // =============================================================
     
-    enum Turn
-    {
-        case X, O
-    }
-    
     enum GameType
     {
-        case SinglePlayer, MultiPlayer, NetworkPlay
+        case SinglePlayer, MultiPlayer
     }
     
-    enum BoardEntry
+    enum State: Equatable
     {
-        case X, O, Empty
+        case Start
+        case AwaitingUserInput
+        case AIMove
+        case ApplyRotation
+        case CheckForWin
+        case GameOver(Ornament)
+        case NextTurn
+        
     }
     
     // =============================================================
     // MARK: Variables
     // =============================================================
     
-            var currentTurn = Turn.X
-    private var initialTurn = Turn.X
-            var gameType    = GameType.SinglePlayer
-            var board       = [BoardEntry](count: 9, repeatedValue: BoardEntry.Empty)
-            let boardSize   = 3
-    
+    var gameState   = State.Start
+    var gameType    = GameType.SinglePlayer
+    var turnHandler = TurnHandler()
+    var board       = [Ornament?](count: 9, repeatedValue: nil)
+    let boardSize   = 3
     
     // =============================================================
-    // MARK: Public Methods
+    // MARK: Game Loop
     // =============================================================
-    mutating func reset()
+    
+    required init(gameType: GameType)
     {
-        swapInitialTurnForNewGame()
+        setup(gameType)
         resetBoard()
     }
     
+    func update()
+    {
+        switch gameState
+        {
+        case .Start:
+            evaluateTurn()
+            
+        case .AwaitingUserInput:
+            break
+            
+        case .AIMove:
+            requestAIMove()
+        
+        case .ApplyRotation:
+            rotateTheBoard()
+            
+        case .CheckForWin:
+            checkForWin()
+            
+        case .GameOver(let winner):
+            announceWinner(winner)
+            
+        case .NextTurn:
+            nextTurn()
+            
+            
+        }
+    }
+    
+    func userInput(location: Location)
+    {
+        if self.gameState == State.AwaitingUserInput
+        {
+            updateBoard(location)
+        }
+    }
+    
+    // =============================================================
+    // MARK: Setup Methods
+    // =============================================================
+    
+    private func setup(gameType: GameType)
+    {
+        self.gameType = gameType
+
+        switch (self.gameType)
+        {
+        case .SinglePlayer:
+            turnHandler.add((PlayerType.Local, Ornament.X))
+            turnHandler.add((PlayerType.AI,    Ornament.O))
+            
+        case .MultiPlayer:
+            turnHandler.add((PlayerType.Local, Ornament.X))
+            turnHandler.add((PlayerType.Local, Ornament.O))
+        }
+    }
     
     // =============================================================
     // MARK: Private Methods
     // =============================================================
     
-    mutating func swapInitialTurnForNewGame()
-    {
-        if initialTurn == Turn.X
-        {
-            initialTurn = Turn.O
-        }
-        else
-        {
-            initialTurn = Turn.X
-        }
-        currentTurn = initialTurn
-    }
-    
-    mutating func resetBoard()
+    private func resetBoard()
     {
         board.removeAll(keepCapacity: false)
-        board = [BoardEntry](count: 9, repeatedValue: BoardEntry.Empty)
+        board = [Ornament?](count: 9, repeatedValue: nil)
     }
     
+    private func evaluateTurn()
+    {
+        let turnOpt = turnHandler.currentTurn()
+        
+        if let turn = turnOpt
+        {
+            switch turn.type
+            {
+            case .Local: gameState = State.AwaitingUserInput
+            case .AI:    gameState = State.AIMove
+            }
+        }
+    }
+    
+    private func awaitingUserInput()
+    {
+        // TODO
+        // Delegate pattern to announce expecting move
+    }
+    
+    private func updateBoard(location: Location)
+    {
+        let index   = location.rawValue
+        let turnOpt = turnHandler.currentTurn()
+        
+        if let turn = turnOpt
+        {
+            board[index] = turn.ornament
+        }
+    }
+
+    private func requestAIMove()
+    {
+        // TODO
+        // location = AI.DoStuff(Ornament, Board)
+        // updateBoard(location)
+        
+        // state = .rotate the board
+    }
+    
+    private func rotateTheBoard()
+    {
+        // TODO
+        // Rotate the Board
+        // Tell everyone you rotated the board
+        // Give the board to everyone for error checking
+        
+        // state = .CheckForWin
+    }
+    
+    private func checkForWin()
+    {
+        // TODO 
+        // Static Win Checker Object
+        // won = WinChecker.Board
+        
+        // if won state = gameOver(winner)
+        // else state = next turn
+    }
+    
+    private func announceWinner(winner: Ornament)
+    {
+        // TODO
+        // Delegate Pattern to announce winner
+    }
+    
+    private func nextTurn()
+    {
+        turnHandler.nextTurn()
+        evaluateTurn()
+    }
 }
+
