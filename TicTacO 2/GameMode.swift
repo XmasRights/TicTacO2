@@ -52,11 +52,11 @@ class GameLogic
     // MARK: Variables
     // =============================================================
     
-    var gameState   = State.Start { didSet{ update() } }
-    var gameType    = GameType.SinglePlayer
-    var turnHandler = TurnHandler()
-    var board       = [Ornament?](count: 9, repeatedValue: nil)
-    let boardSize   = 3
+    private var gameState   = State.Start { didSet{ update() } }
+    private var gameType    = GameType.SinglePlayer
+    private var turnHandler = TurnHandler()
+    private var board       = [Ornament?](count: 9, repeatedValue: nil)
+    private let boardSize   = 3
     
     // =============================================================
     // MARK: Game Loop
