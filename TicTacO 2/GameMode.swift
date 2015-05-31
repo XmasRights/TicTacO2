@@ -52,7 +52,7 @@ class GameLogic
     // MARK: Variables
     // =============================================================
     
-    var gameState   = State.Start
+    var gameState   = State.Start { didSet{ update() } }
     var gameType    = GameType.SinglePlayer
     var turnHandler = TurnHandler()
     var board       = [Ornament?](count: 9, repeatedValue: nil)
@@ -66,6 +66,8 @@ class GameLogic
     {
         setup(gameType)
         resetBoard()
+        
+        update()
     }
     
     func update()
@@ -76,7 +78,7 @@ class GameLogic
             evaluateTurn()
             
         case .AwaitingUserInput:
-            break
+            awaitingUserInput()
             
         case .AIMove:
             requestAIMove()
