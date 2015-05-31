@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		6A323A3D1B1A9A3E00C5C0E6 /* TurnHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A323A3C1B1A9A3E00C5C0E6 /* TurnHandler.swift */; };
+		6A323A3F1B1AAE8900C5C0E6 /* TicTacToeAI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A323A3E1B1AAE8900C5C0E6 /* TicTacToeAI.swift */; };
 		6A3C324B1B15351100B6DA58 /* Tile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A3C324A1B15351100B6DA58 /* Tile.swift */; };
 		6A3C324D1B1535C200B6DA58 /* GameBoard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A3C324C1B1535C200B6DA58 /* GameBoard.swift */; };
 		6A76172B1B11019900DF8B48 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A76172A1B11019900DF8B48 /* AppDelegate.swift */; };
@@ -34,6 +35,7 @@
 
 /* Begin PBXFileReference section */
 		6A323A3C1B1A9A3E00C5C0E6 /* TurnHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TurnHandler.swift; sourceTree = "<group>"; };
+		6A323A3E1B1AAE8900C5C0E6 /* TicTacToeAI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TicTacToeAI.swift; sourceTree = "<group>"; };
 		6A3C324A1B15351100B6DA58 /* Tile.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Tile.swift; sourceTree = "<group>"; };
 		6A3C324C1B1535C200B6DA58 /* GameBoard.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameBoard.swift; sourceTree = "<group>"; };
 		6A7617251B11019900DF8B48 /* TicTacO 2.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "TicTacO 2.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -120,6 +122,7 @@
 				6A323A3B1B1A91D100C5C0E6 /* Views */,
 				6A323A3A1B1A91C800C5C0E6 /* App Core */,
 				6A7617281B11019900DF8B48 /* Supporting Files */,
+				6A323A3E1B1AAE8900C5C0E6 /* TicTacToeAI.swift */,
 			);
 			path = "TicTacO 2";
 			sourceTree = "<group>";
@@ -253,6 +256,7 @@
 				6A76174B1B1101D800DF8B48 /* Scoreboard.swift in Sources */,
 				6A76172D1B11019900DF8B48 /* ViewController.swift in Sources */,
 				6A3C324B1B15351100B6DA58 /* Tile.swift in Sources */,
+				6A323A3F1B1AAE8900C5C0E6 /* TicTacToeAI.swift in Sources */,
 				6A3C324D1B1535C200B6DA58 /* GameBoard.swift in Sources */,
 				6A76172B1B11019900DF8B48 /* AppDelegate.swift in Sources */,
 				6A76174D1B11061500DF8B48 /* Extensions.swift in Sources */,
